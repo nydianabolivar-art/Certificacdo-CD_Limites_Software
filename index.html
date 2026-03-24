@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Límites en Ingeniería de Software — Clase Interactiva</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #ffffff; /* Fondo blanco solicitado */
+    --bg2: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --accent: #2563eb; /* Azul Software */
+    --accent2: #7c3aed;
+    --teal: #0d9488;
+    --coral: #dc2626;
+    --text: #1e293b;
+    --text2: #475569;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+    --r: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .hero {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .hero h1 { font-size: 2.5rem; color: var(--accent); margin-bottom: 10px; }
+  .hero p { color: var(--text2); max-width: 700px; margin: 0 auto; }
+
+  .nav-wrap {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: center;
+  }
+
+  .tab-btn {
+    padding: 15px 20px;
+    border: none; background: none;
+    cursor: pointer; font-weight: 500; color: var(--text2);
+    border-bottom: 2px solid transparent;
+  }
+
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .content { max-width: 850px; margin: 0 auto; padding: 40px 20px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .card {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 25px; margin-bottom: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+  }
+
+  .math-block {
+    background: #f1f5f9;
+    padding: 15px; border-radius: 8px;
+    font-family: var(--mono); text-align: center;
+    color: var(--accent); margin: 15px 0;
+  }
+
+  /* Quiz Styles */
+  .quiz-card { margin-bottom: 25px; padding: 20px; border: 1px solid var(--border); border-radius: 10px; }
+  .quiz-opt {
+    display: block; width: 100%; padding: 12px; margin: 8px 0;
+    text-align: left; border: 1px solid var(--border);
+    border-radius: 6px; cursor: pointer; background: #fff;
+    transition: 0.2s;
+  }
+  .quiz-opt:hover { background: #f1f5f9; border-color: var(--accent); }
+  .quiz-opt.correct { background: #dcfce7; border-color: #22c55e; color: #166534; }
+  .quiz-opt.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+  .disabled { pointer-events: none; }
+
+  .btn-submit {
+    background: var(--accent); color: white;
+    padding: 12px 25px; border: none; border-radius: 6px;
+    cursor: pointer; font-weight: 600; width: 100%;
+  }
+
+  #certificate {
+    display: none;
+    text-align: center; border: 10px double var(--accent);
+    padding: 40px; margin-top: 30px; border-radius: 15px;
+    background: #fff;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>Límites en <em>Ingeniería de Software</em></h1>
+  <p>Análisis de comportamiento asintótico, escalabilidad y latencia.</p>
+</div>
+
+<div class="nav-wrap">
+  <button class="tab-btn active" onclick="showTab(0)">1. Conceptos</button>
+  <button class="tab-btn" onclick="showTab(1)">2. Aplicaciones</button>
+  <button class="tab-btn" onclick="showTab(2)">3. Certificación</button>
+</div>
+
+<div class="content">
+  <section class="section active" id="sec0">
+    <div class="card">
+      <h3>📈 El concepto de Límite en Software</h3>
+      <p>En ingeniería de software, un límite describe el comportamiento de una función (como el tiempo de respuesta o uso de memoria) a medida que la entrada (usuarios concurrentes, tamaño del dataset) se acerca a un valor específico.</p>
+      <div class="math-block">lim<sub>x → a</sub> f(x) = L</div>
+      <p>Si <span style="font-family:var(--mono)">f(n)</span> es el tiempo de ejecución de un algoritmo, el límite al infinito nos ayuda a entender la <strong>Complejidad Big O</strong>.</p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--teal);">
+      <h3>Indeterminaciones 0/0</h3>
+      <p>Ocurren frecuentemente al analizar tasas de cambio instantáneas en la latencia de red durante micro-cortes.</p>
+    </div>
+  </section>
+
+  <section class="section" id="sec1">
+    <div class="card">
+      <h3>💻 Aplicación 1: Escalabilidad de Servidores</h3>
+      <p>Si la carga de un servidor está definida por una función, el límite nos permite predecir el punto de colapso antes de que ocurra un <em>Stack Overflow</em>.</p>
+    </div>
+    <div class="card">
+      <h3>🌐 Aplicación 2: Optimización de Consultas</h3>
+      <p>Al reducir el tiempo de respuesta en una base de datos distribuida, buscamos que el límite del tiempo de espera tienda a cero a medida que optimizamos los índices.</p>
+    </div>
+  </section>
+
+  <section class="section" id="sec2">
+    <div class="card">
+      <h3>🏆 Evaluación de Aplicaciones Prácticas</h3>
+      <p>Responde las 10 preguntas para obtener tu certificación. (Requerido: 8/10)</p>
+      <hr style="margin:20px 0; border:0; border-top:1px solid #eee;">
+      <div id="quiz-container">
+        </div>
+      <button class="btn-submit" id="btn-finalizar" onclick="checkExam()">Finalizar y Evaluar</button>
+    </div>
+
+    <div id="result-score" style="display:none; text-align:center; padding:20px;">
+      <h2 id="score-text">Puntaje: 0/10</h2>
+      <p id="score-msg"></p>
+    </div>
+
+    <div id="certificate">
+      <h1 style="color:var(--accent); font-family:serif;">CERTIFICADO DE EXCELENCIA</h1>
+      <p>Otorgado por el Sistema de Inteligencia Artificial a:</p>
+      <h2 style="margin:20px 0; text-decoration: underline;">Estudiante de Ingeniería de Software</h2>
+      <p>Por demostrar dominio avanzado en <strong>Límites Matemáticos Aplicados al Desarrollo de Software</strong>.</p>
+      <div style="margin-top:30px; font-size: 0.8rem;">Verificación Digital: MATH-SOFTWARE-2024</div>
+    </div>
+  </section>
+</div>
+
+<script>
+  const questionsData = [
+    { q: "Si un algoritmo tiene una complejidad de f(n) = (2n + 1)/(n), ¿cuál es el límite de tiempo cuando n tiende al infinito?", a: ["2", "1", "0", "Infinito"], c: 0 },
+    { q: "En el análisis de latencia, ¿qué representa un límite que tiende a infinito?", a: ["Time-out del sistema", "Conexión instantánea", "Memoria llena", "Optimización máxima"], c: 0 },
+    { q: "Calcula lim x→2 de (x² - 4)/(x - 2). ¿Cómo se aplica esto a una función de carga?", a: ["4", "2", "0", "Indeterminado"], c: 0 },
+    { q: "Un script de limpieza de caché reduce archivos según f(t) = 1/t. ¿A qué valor tiende la basura residual?", a: ["0", "1", "0.5", "No tiene límite"], c: 0 },
+    { q: "Si lim x→a f(x) no existe en un punto de tráfico de red, ¿qué significa?", a: ["Hay una discontinuidad (caída de servicio)", "El tráfico es constante", "El servidor es infinito", "La velocidad es luz"], c: 0 },
+    { q: "Al optimizar un ciclo for, si lim n→∞ (n/n²) = 0, ¿qué podemos decir de la eficiencia?", a: ["Mejora significativamente", "Empeora", "Es constante", "Es lineal"], c: 0 },
+    { q: "En renderizado 3D, si los FPS tienden a lim x→0 (sin x / x), ¿cuántos cuadros vemos?", a: ["1", "0", "60", "Infinitos"], c: 0 },
+    { q: "Un balanceador de carga divide el tráfico en (x²-1)/(x-1). ¿Cuál es el límite real en x=1?", a: ["2", "1", "0", "Error 404"], c: 0 },
+    { q: "Si el uso de CPU sigue la función f(x) = e^(-x), ¿qué ocurre a largo plazo?", a: ["Tiende a 0 (reposo)", "Tiende a 100%", "Explota", "Se mantiene en 50%"], c: 0 },
+    { q: "El límite de una función constante de memoria f(n) = 8GB es:", a: ["8GB", "0", "Depende de n", "Variable"], c: 0 }
+  ];
+
+  let currentQuestions = [];
+
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function initQuiz() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';
+    // Barajar preguntas
+    currentQuestions = shuffle([...questionsData]);
+
+    currentQuestions.forEach((qd, idx) => {
+      const card = document.createElement('div');
+      card.className = 'quiz-card';
+      
+      // Barajar opciones guardando referencia a la correcta
+      let options = qd.a.map((opt, i) => ({ text: opt, isCorrect: i === qd.c }));
+      options = shuffle(options);
+
+      let optionsHtml = options.map((opt, i) => `
+        <button class="quiz-opt" onclick="selectOpt(this, ${idx}, ${opt.isCorrect})">
+          ${opt.text}
+        </button>
+      `).join('');
+
+      card.innerHTML = `
+        <p class="quiz-question"><strong>${idx + 1}.</strong> ${qd.q}</p>
+        <div class="quiz-options">${optionsHtml}</div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  let userAnswers = {};
+
+  function selectOpt(btn, qIdx, isCorrect) {
+    const opts = btn.parentElement.querySelectorAll('.quiz-opt');
+    opts.forEach(o => o.classList.remove('active', 'correct', 'wrong'));
+    btn.classList.add('active');
+    userAnswers[qIdx] = isCorrect;
+  }
+
+  function checkExam() {
+    let score = 0;
+    const total = currentQuestions.length;
+    
+    // Validar que respondió todas
+    if(Object.keys(userAnswers).length < total) {
+      alert("Por favor responde todas las aplicaciones antes de finalizar.");
+      return;
+    }
+
+    Object.values(userAnswers).forEach(v => { if(v) score++; });
+
+    const resultDiv = document.getElementById('result-score');
+    const scoreText = document.getElementById('score-text');
+    const scoreMsg = document.getElementById('score-msg');
+    const cert = document.getElementById('certificate');
+
+    resultDiv.style.display = 'block';
+    scoreText.textContent = `Puntaje: ${score}/${total}`;
+
+    if(score >= 8) {
+      scoreMsg.innerHTML = "🎉 ¡Excelente! Has aprobado con éxito.";
+      scoreMsg.style.color = "green";
+      cert.style.display = 'block';
+    } else {
+      scoreMsg.innerHTML = "Necesitas al menos 8/10 para obtener la certificación. ¡Repasa y vuelve a intentarlo!";
+      scoreMsg.style.color = "red";
+      cert.style.display = 'none';
+    }
+    
+    document.getElementById('btn-finalizar').style.display = 'none';
+    // Deshabilitar opciones
+    document.querySelectorAll('.quiz-opt').forEach(b => b.classList.add('disabled'));
+  }
+
+  function showTab(n) {
+    document.querySelectorAll('.section').forEach((s, i) => {
+      s.classList.toggle('active', i === n);
+    });
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', i === n);
+    });
+    if(n === 2) initQuiz(); // Inicializa y baraja al entrar a la pestaña de práctica
+  }
+
+  // Iniciar
+  window.onload = () => {
+    // El quiz se barajará cada vez que se cargue la página o se entre a la pestaña
+  };
+</script>
+
+</body>
+</html>
